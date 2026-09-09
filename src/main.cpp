@@ -26,7 +26,7 @@ static bool enable_wiFiPlus          = true;
 static bool enable_mqtt              = true;
 static bool enable_webserver         = false;
 static bool enable_eepromAT24C32     = true;
-static bool enable_lcdDisplay        = false;
+static bool enable_lcdDisplay        = true;
 
 static float temperatureEsp32Cpu = 0.0;
 
@@ -103,12 +103,12 @@ void setup()
 
   if (enable_lcdDisplay)
   {
-  //   if (!(api_lcd2004::lcdDisplay.setup()))
-  //   {
-  //     Serial.println("FAILED to setup LCD Display");
-  //     Serial.flush();
-  //     enable_lcdDisplay = false;
-  //   }
+    if (!(api_lcd2004::lcd2004.lcd_setup()))
+    {
+      Serial.println("FAILED to setup LCD Display");
+      Serial.flush();
+      enable_lcdDisplay = false;
+    }
   }
 
 }
@@ -185,6 +185,11 @@ void loop()
   if (enable_eepromAT24C32)
   {
 
+  }
+
+  if (enable_lcdDisplay)
+  {
+    api_lcd2004::lcd2004.lcd_printAirThingsWavePlusData(timeDateString, currentValues, temperatureEsp32Cpu);
   }
 
 while(millis() < msecMax);
