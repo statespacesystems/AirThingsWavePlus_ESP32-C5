@@ -7,7 +7,8 @@ namespace config
 {
 
 // Config locator
-const bool     loadConfigFromEEPROM = true;
+const bool     loadConfigFromEEPROM = false;
+const uint8_t  revision = 0x01;
 
 // Airthings Wave Plus info
 #define AirThingsWavePlusSerialNumberArraySize 5
@@ -34,14 +35,33 @@ const uint8_t wiFiSecondaryDNS[4]  = {8, 8, 4, 4};
 // MQTT Broker Settings
 const uint8_t mqttBroker[4]       = {192, 168, 1, 66};
 const int16_t mqttPort            = 1883;
-const char*   mqttTopicAirThings  = "airThingsWavePlus";
-const char*   mqttTopicRtc        = "rtc";
-const char*   mqttTopicConfig     = "config";
+
+const char*   mqttTopicAirThings                      = "AirThingsWavePlus";
+const char*   mqttTopicAirThingsSubjectTemperature    = "Temperature";
+const char*   mqttTopicAirThingsSubjectHumidity       = "Humidity";
+const char*   mqttTopicAirThingsSubjectCO2            = "CO2";
+const char*   mqttTopicAirThingsSubjectLongTermRadon  = "LongTermRadon";
+const char*   mqttTopicAirThingsSubjectShortTermRadon = "ShortTermRadon";
+const char*   mqttTopicAirThingsSubjectPressure       = "Pressure";
+const char*   mqttTopicAirThingsSubjectVoc            = "Voc";
+const char*   mqttTopicAirThingsSubjectTimeDate       = "TimeDate";
+
+const char*   mqttTopicRtc        = "Rtc";
+const char*   mqttTopicConfig     = "Config";
 
 // Real TIme Clock DS3231
 const bool rtcUseAlarm            = false;
 const bool rtcUseSquareWave       = false;
 const bool rtcInterruptPin        = D2;    // pin that is connected to SQW
+
+const bool enable_AirThingsWavePlus =  true;
+const bool enable_rtcPlus           =  false;
+const bool enable_cpuTemperature    =  false;
+const bool enable_wiFiPlus          =  false;
+const bool enable_mqtt              =  false;
+const bool enable_webserver         =  false;
+const bool enable_eepromAT24C32     =  false;
+const bool enable_lcdDisplay        =  false;
 
 } // namespace config
 

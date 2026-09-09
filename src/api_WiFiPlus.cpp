@@ -7,7 +7,8 @@
 namespace api_WiFiPlus
 {
 
-WiFiPlus wiFiPlus((bool)api_config::get_useStaticIP());
+//WiFiPlus wiFiPlus((bool)api_config::get_useStaticIP());
+WiFiPlus wiFiPlus((bool)true);
 //WiFiPlus wiFiPlus((bool)false);
 
 WiFiPlus::WiFiPlus(bool useStaticIP) : staticIP(useStaticIP) 

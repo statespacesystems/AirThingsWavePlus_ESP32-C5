@@ -4,6 +4,8 @@
 #include "api_rtc.hpp"
 #include "api_EspCpuTempPlus.hpp"
 #include "api_eepromAT23C32.hpp"
+#include "api_mqtt.hpp"
+#include "api_lcd2004.hpp"
 
 //namespace std {
 
@@ -22,8 +24,9 @@ static bool enable_rtcPlus           = true;
 static bool enable_cpuTemperature    = true;
 static bool enable_wiFiPlus          = true;
 static bool enable_mqtt              = true;
-static bool enable_webserver         = true;
-bool enable_eepromAT24C32     = true;
+static bool enable_webserver         = false;
+static bool enable_eepromAT24C32     = true;
+static bool enable_lcdDisplay        = false;
 
 static float temperatureEsp32Cpu = 0.0;
 
@@ -84,11 +87,36 @@ void setup()
       enable_eepromAT24C32 = false;
     }
   }
+
+  if (enable_mqtt)
+  {
+    if( api_mqtt::mqttPubSub.setupMqtt())
+    {
+      Serial.println("MQTT initialized successfully");
+    }
+    else
+    {
+      Serial.println("Failed to initialize MQTT");
+      enable_mqtt = false;
+    }
+  }
+
+  if (enable_lcdDisplay)
+  {
+  //   if (!(api_lcd2004::lcdDisplay.setup()))
+  //   {
+  //     Serial.println("FAILED to setup LCD Display");
+  //     Serial.flush();
+  //     enable_lcdDisplay = false;
+  //   }
+  }
+
 }
 
 void loop()
 {
   msecMax = millis() + SAMPLE_PERIOD * 1000;
+  api_AirThingsWavePlus::CurrentValues currentValues;
 
   if (enable_cpuTemperature)
   {
@@ -129,7 +157,7 @@ void loop()
     api_AirThingsWavePlus::wave2.connect(5);
     if (api_AirThingsWavePlus::wave2.isConnected())
     {
-      api_AirThingsWavePlus::CurrentValues currentValues = api_AirThingsWavePlus::wave2.read();
+      currentValues = api_AirThingsWavePlus::wave2.read();
       printAirThingsWavePlus(timeDateString, currentValues, temperatureEsp32Cpu);
     }
     else
@@ -146,7 +174,7 @@ void loop()
 
   if (enable_mqtt)
   {
-  // api_mqtt::mqtt
+    api_mqtt::mqttPubSub.updateMqtt(timeDateString, currentValues, temperatureEsp32Cpu);
   }
 
   if (enable_webserver)

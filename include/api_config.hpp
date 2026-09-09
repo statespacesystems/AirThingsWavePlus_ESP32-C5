@@ -6,6 +6,8 @@
 namespace api_config
 {
 
+uint8_t  get_configRevision();
+
 // Airthings Wave Plus info
 char*    get_ServiceUUID();
 char*    get_CharUUID();
@@ -25,14 +27,33 @@ uint8_t (&get_SecondaryDNS())[4];
 
 // MQTT Broker Settings
 uint8_t (&get_mqtt_broker())[4];
-int16_t get_mqtt_port();
-char*   get_mqtt_AirThingsTopic();
+int16_t get_mqttPort();
+char*   get_mqttTopicAirThings();
+char*   get_mqttTopicAirThingsSubjectTemperature();
+char*   get_mqttTopicAirThingsSubjectHumidity();
+char*   get_mqttTopicAirThingsSubjectCO2();
+char*   get_mqttTopicAirThingsSubjectLongTermRadon();
+char*   get_mqttTopicAirThingsSubjectShortTermRadon();
+char*   get_mqttTopicAirThingsSubjectPressure();
+char*   get_mqttTopicAirThingsSubjectVoc();
+char*   get_mqttTopicAirThingsSubjectTimeDate();
+
 char*   get_mqtt_RtcTopic();
 
-// Real TIme Clock DS3231
+// Real Time Clock DS3231
 bool    get_rtcUseAlarm();
 bool    get_rtcUseSquareWave();
 uint8_t get_rtcInterruptPin();
+
+// Submodule enablers
+bool    get_enable_AirThingsWavePlus();
+bool    get_enable_rtcPlus();
+bool    get_enable_cpuTemperature();
+bool    get_enable_wiFiPlus();
+bool    get_enable_mqtt();
+bool    get_enable_webserver();
+bool    get_enable_eepromAT24C32();
+bool    get_enable_lcdDisplay();
 
 bool readConfig();
 bool writeConfig();
