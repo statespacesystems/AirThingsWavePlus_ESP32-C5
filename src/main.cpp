@@ -1,4 +1,5 @@
 #include <Arduino.h>
+#include <esp_task_wdt.h>
 #include "api_AirThingsWavePlus.hpp"
 #include "api_WiFiPlus.hpp"
 #include "api_rtc.hpp"
@@ -27,6 +28,7 @@ static bool enable_mqtt              = true;
 static bool enable_webserver         = false;
 static bool enable_eepromAT24C32     = true;
 static bool enable_lcdDisplay        = true;
+static bool enable_watchDawg         = true;
 
 static float temperatureEsp32Cpu = 0.0;
 
@@ -111,6 +113,52 @@ void setup()
     }
   }
 
+  if (enable_watchDawg)
+  {
+    Serial.print("Configuring WDT...");
+    const uint32_t wdtTimeout = 60*1000; // if no response for 60 seconds, force a reboot
+    esp_task_wdt_config_t twdt_config = 
+      {
+      .timeout_ms     = wdtTimeout,
+      .idle_core_mask = 0,           // use core 0 
+      .trigger_panic  = true         // timeout forces reboot
+      };
+
+    esp_err_t err =  esp_task_wdt_deinit();  // optional: disable if already active
+    if (err != ESP_OK) 
+    {
+      Serial.printf("Failed to deinit WDT: %s\n", esp_err_to_name(err));
+    }
+
+    if (err == ESP_OK) 
+    {
+      err = esp_task_wdt_init(&twdt_config); 
+      if (err != ESP_OK) 
+      {
+        Serial.printf("Failed to init WDT: %s\n", esp_err_to_name(err));
+      }
+    }
+
+    if (err == ESP_OK) 
+    {
+      err = esp_task_wdt_add(NULL);  // add Loop task to WDT
+      if (err != ESP_OK) 
+      {
+        Serial.printf("Failed to add WDT: %s\n", esp_err_to_name(err));
+      }
+    }
+
+    if (err != ESP_OK)
+    {
+      enable_watchDawg = false;
+      err = esp_task_wdt_deinit(); 
+      Serial.printf("WARNIING: Failed to enable WatchDog Timer\n");
+    }
+    else
+    {
+      Serial.println("PASSED");
+    }
+  }
 }
 
 void loop()
@@ -190,6 +238,11 @@ void loop()
   if (enable_lcdDisplay)
   {
     api_lcd2004::lcd2004.lcd_printAirThingsWavePlusData(timeDateString, currentValues, temperatureEsp32Cpu);
+  }
+
+  if (enable_watchDawg)
+  {
+    esp_task_wdt_reset();
   }
 
 while(millis() < msecMax);

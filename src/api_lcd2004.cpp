@@ -57,18 +57,18 @@ bool Lcd2004::lcd_printAirThingsWavePlusData(char* timeString, api_AirThingsWave
 {
 	lcd2004.setCursor(0,0);
     lcd2004.print(timeString);
-    char lineString[20];
+    char lineString[21];
 	lcd2004.setCursor(0,1);
     memset(lineString, 0x20, sizeof(lineString));
-    snprintf(lineString,sizeof(lineString), "tmp %3.2f  h %3.2f", currentValues.temperature, currentValues.humidity);
+    snprintf(lineString,sizeof(lineString), "tmp  %5.1f hum %5.1f", currentValues.temperature, currentValues.humidity);
     lcd2004.print(lineString);
 	lcd2004.setCursor(0,2);
     memset(lineString, 0x20, sizeof(lineString));
-    snprintf(lineString,sizeof(lineString), "CO2 %4.2f v %3.2f", currentValues.co2, currentValues.voc);
+    snprintf(lineString,sizeof(lineString), "CO2 %6.1f RadS%5.2f", currentValues.co2, currentValues.radonSTA);
     lcd2004.print(lineString);
 	lcd2004.setCursor(0,3);
     memset(lineString, 0x20, sizeof(lineString));
-    snprintf(lineString,sizeof(lineString), "RadS %2.2f RadL %2.2f", currentValues.radonSTA, currentValues.radonLTA);
+    snprintf(lineString,sizeof(lineString), "voc %6.1f RadL%5.2f", currentValues.voc, currentValues.radonLTA);
     lcd2004.print(lineString);
     return true;
 
