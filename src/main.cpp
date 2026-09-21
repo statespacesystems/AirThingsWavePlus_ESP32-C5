@@ -116,7 +116,8 @@ void setup()
   if (enable_watchDawg)
   {
     Serial.print("Configuring WDT...");
-    const uint32_t wdtTimeout = 60*1000; // if no response for 60 seconds, force a reboot
+static uint32_t msecMax = 0;
+    const uint32_t wdtTimeout = ((SAMPLE_PERIOD*5)/2)*1000; // if no response o 2.5*SAMPLE_PERIOD seconds, force a reboot
     esp_task_wdt_config_t twdt_config = 
       {
       .timeout_ms     = wdtTimeout,
