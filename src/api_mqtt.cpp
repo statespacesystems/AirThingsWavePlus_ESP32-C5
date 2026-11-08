@@ -122,108 +122,54 @@ void MqttPubSubPlus::updateMqtt(char* timeString, api_AirThingsWavePlus::Current
     // Convert the value to a char array
     snprintf(mqttTopic, sizeof(mqttTopic), "%s/%s", api_config::get_mqttTopicAirThings(), api_config::get_mqttTopicAirThingsSubjectTemperature());
     mqttTopic[sizeof(mqttTopic) - 1] = '\0';
-    // Serial.print("mqttTopic: ");
-    // Serial.println(mqttTopic);
     dtostrf(currentValues.temperature, 1, 2, mqttFloatValueString);
-    // Serial.print("Temperature: ");
-    // Serial.println(mqttFloatValueString);
-    //IotHubClient.publish("esp32/temperature", tempString);
-    //IotHubClient.publish(mqttTopic, mqttFloatValueString);
     publishWithRetries(mqttTopic, mqttFloatValueString);
 
-    //delay(2000);
     // Convert the value to a char array
     snprintf(mqttTopic, sizeof(mqttTopic), "%s/%s", api_config::get_mqttTopicAirThings(), api_config::get_mqttTopicAirThingsSubjectHumidity());
     mqttTopic[sizeof(mqttTopic) - 1] = '\0';
-    // Serial.print("mqttTopic: ");
-    // Serial.println(mqttTopic);
     dtostrf(currentValues.humidity, 1, 2, mqttFloatValueString);
-    // Serial.print("Humisity: ");
-    // Serial.println(mqttFloatValueString);
-    //IotHubClient.publish(mqttTopic, mqttFloatValueString);
     publishWithRetries(mqttTopic, mqttFloatValueString);
 
-    //delay(2000);
     // Convert the value to a char array
     snprintf(mqttTopic, sizeof(mqttTopic), "%s/%s", api_config::get_mqttTopicAirThings(), api_config::get_mqttTopicAirThingsSubjectCO2());
     mqttTopic[sizeof(mqttTopic) - 1] = '\0';
-    // Serial.print("mqttTopic: ");
-    // Serial.println(mqttTopic);
     dtostrf(currentValues.co2, 1, 2, mqttFloatValueString);
-    // Serial.print("CO2: ");
-    // Serial.println(mqttFloatValueString);
-    //IotHubClient.publish(mqttTopic, mqttFloatValueString);
     publishWithRetries(mqttTopic, mqttFloatValueString);
 
-    //delay(2000);
     // Convert the value to a char array
     snprintf(mqttTopic, sizeof(mqttTopic), "%s/%s", api_config::get_mqttTopicAirThings(), api_config::get_mqttTopicAirThingsSubjectShortTermRadon());
     mqttTopic[sizeof(mqttTopic) - 1] = '\0';
-    // Serial.print("mqttTopic: ");
-    // Serial.println(mqttTopic);
     dtostrf(currentValues.radonSTA, 1, 2, mqttFloatValueString);
-    // Serial.print("Radon (Short Term): ");
-    // Serial.println(mqttFloatValueString);
-    //IotHubClient.publish(mqttTopic, mqttFloatValueString);
     publishWithRetries(mqttTopic, mqttFloatValueString);
 
-    //delay(2000);
     // Convert the value to a char array
     snprintf(mqttTopic, sizeof(mqttTopic), "%s/%s", api_config::get_mqttTopicAirThings(), api_config::get_mqttTopicAirThingsSubjectLongTermRadon());
     mqttTopic[sizeof(mqttTopic) - 1] = '\0';
-    // Serial.print("mqttTopic: ");
-    // Serial.println(mqttTopic);
     dtostrf(currentValues.radonLTA, 1, 2, mqttFloatValueString);
-    // Serial.print("Radon (Long Term): ");
-    // Serial.println(mqttFloatValueString);
-    //IotHubClient.publish(mqttTopic, mqttFloatValueString);
     publishWithRetries(mqttTopic, mqttFloatValueString);
 
-    //delay(2000);
     // Convert the value to a char array
     snprintf(mqttTopic, sizeof(mqttTopic), "%s/%s", api_config::get_mqttTopicAirThings(), api_config::get_mqttTopicAirThingsSubjectPressure());
     mqttTopic[sizeof(mqttTopic) - 1] = '\0';
-    // Serial.print("mqttTopic: ");
-    // Serial.println(mqttTopic);
     dtostrf(currentValues.pressure, 1, 2, mqttFloatValueString);
-    // Serial.print("Pressure: ");
-    // Serial.println(mqttFloatValueString);
-    //IotHubClient.publish(mqttTopic, mqttFloatValueString);
     publishWithRetries(mqttTopic, mqttFloatValueString);
 
-    //delay(2000);
     // Convert the value to a char array
     snprintf(mqttTopic, sizeof(mqttTopic), "%s/%s", api_config::get_mqttTopicAirThings(), api_config::get_mqttTopicAirThingsSubjectVoc());
     mqttTopic[sizeof(mqttTopic) - 1] = '\0';
-    // Serial.print("mqttTopic: ");
-    // Serial.println(mqttTopic);
     dtostrf(currentValues.voc, 1, 2, mqttFloatValueString);
-    // Serial.print("Voc: ");
-    // Serial.println(mqttFloatValueString);
-    //IotHubClient.publish(mqttTopic, mqttFloatValueString);
     publishWithRetries(mqttTopic, mqttFloatValueString);
 
-    //delay(2000);
     // Convert the value to a char array
     snprintf(mqttTopic, sizeof(mqttTopic), "%s/%s", api_config::get_mqttTopicAirThings(), "ESP32CPUTemp");
     mqttTopic[sizeof(mqttTopic) - 1] = '\0';
-    // Serial.print("mqttTopic: ");
-    // Serial.println(mqttTopic);
     dtostrf(temperatureEsp32Cpu, 1, 2, mqttFloatValueString);
-    // Serial.print("temperatureEsp32Cpu: ");
-    // Serial.println(mqttFloatValueString);
-    //IotHubClient.publish(mqttTopic, mqttFloatValueString);
     publishWithRetries(mqttTopic, mqttFloatValueString);
 
-    //delay(2000);
     // Convert the value to a char array
     snprintf(mqttTopic, sizeof(mqttTopic), "%s/%s", api_config::get_mqttTopicAirThings(), api_config::get_mqttTopicAirThingsSubjectTimeDate());
     mqttTopic[sizeof(mqttTopic) - 1] = '\0';
-    // Serial.print("mqttTopic: ");
-    // Serial.println(mqttTopic);
-    // Serial.print("Time/Datc: ");
-    // Serial.println(timeString);
-    //IotHubClient.publish(mqttTopic, timeString);
     publishWithRetries(mqttTopic, timeString);
   }
 
