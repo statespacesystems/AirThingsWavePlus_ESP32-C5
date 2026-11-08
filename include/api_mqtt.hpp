@@ -13,6 +13,7 @@ public:
     MqttPubSubPlus();
     bool setupMqtt();
     void reconnect();
+    bool publishWithRetries(char *mqttTopic, char *mqttValueString);
     void updateMqtt(char* timeString, api_AirThingsWavePlus::CurrentValues currentValues, float temperatureEsp32Cpu);
 
 
